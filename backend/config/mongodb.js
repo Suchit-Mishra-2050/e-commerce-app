@@ -1,20 +1,14 @@
-import dns from "node:dns/promises";
-
-dns.setServers(["1.1.1.1", "1.0.0.1"]);
-
 import mongoose from "mongoose";
 
 const connectDB = async () => {
   try {
-    mongoose.connection.on("connected", () => {
-      console.log("DB is Connected");
-    });
+    const MONGO_URL = process.env.MONGODB_URI;
 
-    await mongoose.connect(process.env.MONGODB_URI, {
-      dbName: "e-commerce",
-    });
+    await mongoose.connect(MONGO_URL);
+
+    console.log("MongoDb is Connected successfully");
   } catch (error) {
-    console.log("MongoDB connection error:", error.message);
+    console.log("MongoDB Connection error", error.message);
   }
 };
 
